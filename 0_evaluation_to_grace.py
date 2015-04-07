@@ -44,7 +44,7 @@ input_files["one_degree_id"]                                 = '/data/hydroworld
                                                              
 # output files:                                              
 output_files = {}                                            
-output_files['output_folder']                                = model_output_folder+"/global/analysis/grace/"
+output_files['output_folder']                                = model_output_folder+"/global/analysis/grace/aquifer"
 #~ output_files['output_folder']                             = "/scratch/edwin/05min_runs_results/2015-03-27_and_2015-04-01/non-natural_2015-04-01/global/analysis/grace/"
 #~ output_files['output_folder']                             = "/scratch/edwin/test_grace/"
 cleanOutputFolder = True                                     
