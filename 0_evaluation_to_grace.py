@@ -26,8 +26,8 @@ input_files["model_total_water_storage"]                     = model_output_fold
 input_files["model_total_water_storage_variable_name"]       = "total_thickness_of_water_storage"
 #
 # - cell area for the model (unit: m2, depending on PCR-GLOBWB resolution)
-#~ input_files["model_cell_area"]                            = '/data/hydroworld/PCRGLOBWB20/input5min/routing/cellsize05min.correct.map' 
-input_files["model_cell_area"]                               = '/data/hydroworld/PCRGLOBWB20/input30min/routing/cellarea30min.map' 
+input_files["model_cell_area"]                            = '/data/hydroworld/PCRGLOBWB20/input5min/routing/cellsize05min.correct.map' 
+#~ input_files["model_cell_area"]                               = '/data/hydroworld/PCRGLOBWB20/input30min/routing/cellarea30min.map' 
 #
 # - catchment/basin/aquifer classification (please provide the input map in a 30 arc-minute resolution)  
 #~ input_files["basin30minmap"]                                 = '/scratch/edwin/input/basin_and_grace_from_yoshi/globalcat.map' 
