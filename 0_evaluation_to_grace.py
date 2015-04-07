@@ -21,15 +21,17 @@ import virtualOS as vos
 input_files = {}
 #
 # - total thickness of water storage, from PCR-GLOBWB
-input_files["model_total_water_storage"]                     = '/scratch/edwin/05_arcmin_runs/2014_11_28/multi_cores_non_natural_1960_to_2010/global/totalWaterStorageThickness_monthAvg_output.nc' # unit: meter
+model_output_folder                                          = '/scratch/edwin/05min_runs_results/2015-03-27_and_2015-04-01/non-natural_2015-04-01/global/'
+input_files["model_total_water_storage"]                     = model_output_folder+'netcdf/totalWaterStorageThickness_monthAvg_output.nc' # unit: meter
 input_files["model_total_water_storage_variable_name"]       = "total_thickness_of_water_storage"
 #
 # - cell area for the model (unit: m2, depending on PCR-GLOBWB resolution)
-input_files["model_cell_area"]                               = '/data/hydroworld/PCRGLOBWB20/input5min/routing/cellsize05min.correct.map' 
-#~ input_files["model_cell_area"]                            = '/data/hydroworld/PCRGLOBWB20/input30min/routing/cellarea30min.map' 
+#~ input_files["model_cell_area"]                            = '/data/hydroworld/PCRGLOBWB20/input5min/routing/cellsize05min.correct.map' 
+input_files["model_cell_area"]                               = '/data/hydroworld/PCRGLOBWB20/input30min/routing/cellarea30min.map' 
 #
 # - catchment/basin/aquifer classification (please provide the input map in a 30 arc-minute resolution)  
-input_files["basin30minmap"]                                 = '/scratch/edwin/input/basin_and_grace_from_yoshi/globalcat.map' 
+#~ input_files["basin30minmap"]                                 = '/scratch/edwin/input/basin_and_grace_from_yoshi/globalcat.map' 
+input_files["basin30minmap"]                                 = '/home/sutan101/data/processing_whymap/version_19september2014/major_aquifer_30min.extended.map'
 #~ input_files["basin30minmap"]                              = '/scratch/edwin/processing_whymap/version_19september2014/major_aquifer_30min.map' 
 # - cell area for the catchment/basin/aquifer classification (unit: m2, 30 arc-minute resolution)  
 input_files["area30min_map"]                                 = '/data/hydroworld/PCRGLOBWB20/input30min/routing/cellarea30min.map' 
@@ -42,7 +44,8 @@ input_files["one_degree_id"]                                 = '/data/hydroworld
                                                              
 # output files:                                              
 output_files = {}                                            
-output_files['output_folder']                                = "/scratch/edwin/05_arcmin_runs/2014_11_28/multi_cores_non_natural_1960_to_2010/analysis/grace/"
+output_files['output_folder']                                = model_output_folder+"/global/analysis/grace/""
+#~ output_files['output_folder']                             = "/scratch/edwin/05min_runs_results/2015-03-27_and_2015-04-01/non-natural_2015-04-01/global/analysis/grace/"
 #~ output_files['output_folder']                             = "/scratch/edwin/test_grace/"
 cleanOutputFolder = True                                     
 #                                                            
@@ -99,20 +102,17 @@ output_files['basinscale_annua_analyses']['relative_mae']    = output_files['out
 # make an output folder
 try:
     os.makedirs(output_files['output_folder'])
-except:
     cleanOutputFolder = False
+except:
     if cleanOutputFolder: 
-        os.system('rm -r '+str(output_files['output_folder'])+"*")
-        os.makedirs(output_files['output_folder'])
+        os.system('rm -r '+str(output_files['output_folder'])+"/*")
 
 # make a temporary folder 
 tmpDir = output_files['output_folder']+"/"+"tmp/"
 try:
     os.makedirs(tmpDir)
 except:
-    if cleanOutputFolder: 
-        os.system('rm -r'+str(tmpDir)+"*")
-        os.makedirs(tmpDir)
+    pass
 
 def main():
     
