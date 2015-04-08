@@ -22,7 +22,7 @@ input_files = {}
 #
 # - total thickness of water storage, from PCR-GLOBWB
 model_output_folder                                          = '/scratch/edwin/05min_runs_results/2015-03-27_and_2015-04-01/non-natural_2015-03-27/global/'
-input_files["model_total_water_storage"]                     = model_output_folder+'/netcdf/totalWaterStorageThickness_monthAvg_output_2000to2010.nc'               # unit: meter
+input_files["model_total_water_storage"]                     = model_output_folder+'/netcdf/totalWaterStorageThickness_monthAvg_output.nc'                         # unit: meter
 input_files["model_total_water_storage_variable_name"]       = "total_thickness_of_water_storage"
 #
 # - cell area for the model (unit: m2, depending on PCR-GLOBWB resolution)
