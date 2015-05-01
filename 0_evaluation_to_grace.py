@@ -38,8 +38,8 @@ input_files["basin30minmap"]                                 = '/home/edwinhs/da
 input_files["area30min_map"]                                 = '/projects/0/dfguu/data/hydroworld/PCRGLOBWB20/input30min/routing/cellarea30min.map' 
 #                                                            
 # - grace input files (unit cm, resolution: one arc-degree)                                       
-input_files["grace_total_water_storage_original"]            = '/scratch-shared/edwinhs/observation_data/grace/source/GRCTellus.CSR.200204_201403.LND.RL05.DSTvSCS1401.nc'   # unit: cm
-input_files["grace_scale_factor"]                            = '/scratch-shared/edwinhs/observation_data/grace/source/CLM4.SCALE_FACTOR.DS.G300KM.RL05.DSTvSCS1401.nc'
+input_files["grace_total_water_storage_original"]            = '/projects/0/wtrcycle/users/edwinhs/observation_data/grace/source/GRCTellus.CSR.200204_201403.LND.RL05.DSTvSCS1401.nc'   # unit: cm
+input_files["grace_scale_factor"]                            = '/projects/0/wtrcycle/users/edwinhs/observation_data/grace/source/CLM4.SCALE_FACTOR.DS.G300KM.RL05.DSTvSCS1401.nc'
 # - one degree cell classification (for GRACE)
 input_files["one_degree_id"]                                 = '/projects/0/dfguu/data/hydroworld/others/irrigationZones/one_arc_degree/uniqueIds60min.map' 
                                                              
