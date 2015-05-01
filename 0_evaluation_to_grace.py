@@ -21,7 +21,6 @@ import virtualOS as vos
 input_files = {}
 #
 # - total thickness of water storage, from PCR-GLOBWB
-#~ model_output_folder                                       = '/scratch/edwin/05min_runs_results/2015-03-27_and_2015-04-01/non-natural_2015-03-27/global/'
 model_output_folder                                          = '/projects/0/wtrcycle/users/edwinhs/05min_runs/27april2015/non_natural/global/'
 input_files["model_total_water_storage"]                     = model_output_folder+'/netcdf/totalWaterStorageThickness_monthAvg_output_2000to2010.nc'               # unit: meter
 input_files["model_total_water_storage_variable_name"]       = "total_thickness_of_water_storage"
@@ -32,8 +31,8 @@ input_files["model_cell_area"]                               = '/projects/0/dfgu
 #
 # - catchment/basin/aquifer classification (please provide the input map in a 30 arc-minute resolution)  
 #~ input_files["basin30minmap"]                              = '/home/edwinhs/data/basin_and_grace_from_yoshi/globalcat.map' 
-#~ input_files["basin30minmap"]                              = '/home/edwinhs/data/processing_whymap/version_19september2014/major_aquifer_30min.extended.map'
-input_files["basin30minmap"]                                 = '/home/edwinhs/data/data_from_jt/mask_nominal_halfdegree.map'
+input_files["basin30minmap"]                                 = '/home/edwinhs/data/processing_whymap/version_19september2014/major_aquifer_30min.extended.map'
+#~ input_files["basin30minmap"]                              = '/home/edwinhs/data/data_from_jt/mask_nominal_halfdegree.map'
 # - cell area for the catchment/basin/aquifer classification (unit: m2, 30 arc-minute resolution)  
 input_files["area30min_map"]                                 = '/projects/0/dfguu/data/hydroworld/PCRGLOBWB20/input30min/routing/cellarea30min.map' 
 #                                                            
@@ -45,8 +44,7 @@ input_files["one_degree_id"]                                 = '/projects/0/dfgu
                                                              
 # output files:                                              
 output_files = {}                                            
-output_files['output_folder']                                = model_output_folder+"/analysis/grace/aquifer_jt/"
-#~ output_files['output_folder']                             = "/scratch/edwin/05min_runs_results/2015-03-27_and_2015-04-01/non-natural_2015-04-01/global/analysis/grace/"
+output_files['output_folder']                                = model_output_folder+"/analysis/grace/major_aquifer/"
 #~ output_files['output_folder']                             = "/scratch/edwin/test_grace/"
 cleanOutputFolder = True                                     
 #                                                            
