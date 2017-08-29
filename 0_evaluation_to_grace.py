@@ -14,15 +14,15 @@ from grace_evaluation import GraceEvaluation
 # time object
 from currTimeStep import ModelTime
 
-# utility module:git@github.com:edwinkost/PCR-GLOBWB_grace_analysis.git
+# utility module
 import virtualOS as vos
 
 # input files:
 input_files = {}
 #
 # - total thickness of water storage, from PCR-GLOBWB
-model_output_folder                                          = '/projects/0/wtrcycle/users/edwinhs/05min_runs/27april2015/non_natural/global/'
-input_files["model_total_water_storage"]                     = model_output_folder+'/netcdf/totalWaterStorageThickness_monthAvg_output_2000to2010.nc'               # unit: meter
+model_output_folder                                          = '/scratch-shared/edwinhs/runs_2017_july_aug_finalizing_4LCs/05min_runs/05min_runs_4LCs_accutraveltime_cru-forcing_1958-2015/non-natural_starting_from_1958/global/netcdf/'
+input_files["model_total_water_storage"]                     = model_output_folder+'/netcdf/totalWaterStorageThickness_monthAvg_output_1958-01-31_to_2015-12-31.nc'               # unit: meter
 input_files["model_total_water_storage_variable_name"]       = "total_thickness_of_water_storage"
 #
 # - cell area for the model (unit: m2, depending on PCR-GLOBWB resolution)
