@@ -48,21 +48,21 @@ catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catc
 catchments = pcr.clump(catchments)
 pcr.aguila(catchments)
 
-# integrate 
+# integrate the near
 number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
 print(number_of_identified_catchments)
-prenum_of_identified_catchments = 0.0
-#~ while prenum_of_identified_catchments != number_of_identified_catchments 
+newnum_of_identified_catchments = 0.0
+# - window size (in arc degree)
+window_size = 2.5
+while newnum_of_identified_catchments != number_of_identified_catchments: 
+    catchments = pcr.cover(catchments, pcr.windowmajority(catchments, window_size))
+    catchments = pcr.catchment(ldd_map, catchments)
+    pcr.aguila(catchments)
+    #~ catchments = 
+#~ 
+    #~ catchments = pcr.clump(catchments)
+    
 
-
-#~ 
-#~ 
-#~ pcrcalc catchment_lddsound_05min.map = "catchment(lddsound_05min.map, pit(lddsound_05min.map))" 
-#~ pcrcalc catchment_size_m2_lddsound_05min.map = "areatotal(cellsize05min.correct.map, catchment_lddsound_05min.map)"
-#~ 
-#~ pcrcalc selected_catchment_lddsound_05min.map = "if(catchment_size_m2_lddsound_05min.map ge 300 * 300 * 1000 * 1000, catchment_lddsound_05min.map)"
-#~ 
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "cover(selected_catchment_lddsound_05min.map, windowmajority(selected_catchment_lddsound_05min.map, 2.5))"
 #~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
 #~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(areatotal(cellsize05min.correct.map, extended_selected_catchment_lddsound_05min.map) ge 300 * 300 * 1000 * 1000, extended_selected_catchment_lddsound_05min.map)"
 #~ 
