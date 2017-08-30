@@ -63,6 +63,7 @@ for i_iter in range(0, 20):
     newnum_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     print(newnum_of_identified_catchments)
 pcr.aguila(catchments)
+pcr.report(catchments, "catchments.map")
 
 
 #~ 
