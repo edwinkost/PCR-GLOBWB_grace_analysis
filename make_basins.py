@@ -7,7 +7,7 @@ import sys
 import pcraster as pcr
 
 # make an output directory and go to there
-output_directory = "/s"
+output_directory = "/scratch-shared/edwinhs/basin_for_grace_evaluation/"
 try:
     os.makedirs(output_directory) 
 except:
