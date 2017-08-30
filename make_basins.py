@@ -46,6 +46,7 @@ catchments = pcr.catchment(ldd_map, pcr.pit(ldd_map))
 # - remove all catchments smaller than the minimum size
 catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
 catchments = pcr.clump(catchments)
+catchments = pcr.ifthen(pcr.scalar(catchments) > 0.0, catchments)
 #~ pcr.aguila(catchments)
 
 # integrate small catchments to their nearest catchments that have been identified 
@@ -59,6 +60,7 @@ for i_iter in range(0, 20):
     catchments = pcr.catchment(ldd_map, catchments)
     catchments = pcr.ifthen(pcr.scalar(catchments) > 0.0, catchments)
     catchments = pcr.clump(catchments)
+    catchments = pcr.ifthen(pcr.scalar(catchments) > 0.0, catchments)
     catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
     newnum_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     print(newnum_of_identified_catchments)
