@@ -31,6 +31,8 @@ landmask = pcr.ifthen(pcr.defined(ldd_map), pcr.boolean(1.0))
 islands  = pcr.clump(landmask)
 islands  = pcr.ifthen(pcr.areatotal(cellsize, islands) > minimum_area, islands)
 landmask = pcr.ifthen(pcr.defined(islands), pcr.boolean(1.0))
+pcr.report(landmask, "landmask.map")
+
 #~ pcr.aguila(landmask)
 
 # redefine ldd, landmask and cell size maps that will be used
@@ -67,30 +69,12 @@ for i_iter in range(0, 20):
 pcr.aguila(catchments)
 pcr.report(catchments, "catchments.map")
 
+# identify cells/islands/basins that have not been identified
+not_selected_yet       = pcr.ifthen(landmask, pcr.ifthenelse(pcr.defined(catchments), pcr.boolean(0.0), pcr.boolean(1.0)))
+areas_not_selected_yet = pcr.clump(not_selected_yet)
+areas_not_selected_yet = pcr.ifthen(pcr.scalar(areas_not_selected_yet) > 0.0, areas_not_selected_yet)
+pcr.report(areas_not_selected_yet, "areas_not_selected_yet.map")
 
-#~ 
-    #~ catchments = pcr.clump(catchments)
-    
-
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(areatotal(cellsize05min.correct.map, extended_selected_catchment_lddsound_05min.map) ge 300 * 300 * 1000 * 1000, extended_selected_catchment_lddsound_05min.map)"
-#~ 
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "cover(extended_selected_catchment_lddsound_05min.map, windowmajority(extended_selected_catchment_lddsound_05min.map, 2.5))"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(areatotal(cellsize05min.correct.map, extended_selected_catchment_lddsound_05min.map) ge 300 * 300 * 1000 * 1000, extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "cover(extended_selected_catchment_lddsound_05min.map, windowmajority(extended_selected_catchment_lddsound_05min.map, 2.5))"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(areatotal(cellsize05min.correct.map, extended_selected_catchment_lddsound_05min.map) ge 300 * 300 * 1000 * 1000, extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "cover(extended_selected_catchment_lddsound_05min.map, windowmajority(extended_selected_catchment_lddsound_05min.map, 2.5))"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(areatotal(cellsize05min.correct.map, extended_selected_catchment_lddsound_05min.map) ge 300 * 300 * 1000 * 1000, extended_selected_catchment_lddsound_05min.map)"
-#~ 
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if( defined(lddsound_05min.map), catchment(lddsound_05min.map, extended_selected_catchment_lddsound_05min.map))"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(scalar(extended_selected_catchment_lddsound_05min.map) gt 0, extended_selected_catchment_lddsound_05min.map)"
-#~ 
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(areatotal(cellsize05min.correct.map, extended_selected_catchment_lddsound_05min.map) ge 300 * 300 * 1000 * 1000, extended_selected_catchment_lddsound_05min.map)"
-#~ 
 #~ # 1
 #~ pcrcalc extended_selected_catchment_lddsound_05min.map = "cover(extended_selected_catchment_lddsound_05min.map, windowmajority(extended_selected_catchment_lddsound_05min.map, celllength() * 1.5))"
 #~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
