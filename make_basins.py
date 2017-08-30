@@ -55,7 +55,6 @@ newnum_of_identified_catchments = 0.0
 # - window size (in arc degree)
 window_size = 2.5
 while newnum_of_identified_catchments != number_of_identified_catchments: 
-    newnum_of_identified_catchments = 0.0
     number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     catchments = pcr.cover(catchments, pcr.windowmajority(catchments, window_size))
     catchments = pcr.catchment(ldd_map, catchments)
@@ -64,7 +63,7 @@ while newnum_of_identified_catchments != number_of_identified_catchments:
     catchments = pcr.clump(catchments)
     newnum_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     print(newnum_of_identified_catchments)
-    #~ pcr.aguila(catchments)
+pcr.aguila(catchments)
 
 
 #~ 
