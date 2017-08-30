@@ -41,10 +41,17 @@ ldd_map  = pcr.ifthen(landmask, ldd_map)
 ldd_map  = pcr.lddrepair(ldd_map)
 ldd_map  = pcr.lddrepair(ldd_map)
 
-#~ # derive catchments and their sizes:
-#~ catchments = "catchment(lddsound_05min.map, pit(lddsound_05min.map))" 
-#~ catchments = "areatotal(cellsize05min.correct.map, catchment_lddsound_05min.map)"
+# derive catchments
+catchments = pcr.catchment(ldd_map, pit(ldd_map))
+# - remove all catchments smaller than the minimum size
+catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
+catchments = pcr.clump(catchments)
+pcr.aguila(catchments)
 
+# integrate 
+pre_number_of_identified_catchments = 0.0
+new_number_of_identified_catchments = 1.0
+#~ while  
 
 
 #~ 
