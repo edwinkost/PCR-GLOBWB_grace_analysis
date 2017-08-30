@@ -51,16 +51,15 @@ catchments = pcr.clump(catchments)
 # integrate small catchments to their nearest catchments that have been identified 
 number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
 print(number_of_identified_catchments)
-newnum_of_identified_catchments = 0.0
 # - window size (in arc degree)
 window_size = 2.5
-while newnum_of_identified_catchments != number_of_identified_catchments: 
+for i_iter in range(0, 20):
     number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     catchments = pcr.cover(catchments, pcr.windowmajority(catchments, window_size))
     catchments = pcr.catchment(ldd_map, catchments)
     catchments = pcr.ifthen(pcr.scalar(catchments) > 0.0, catchments)
-    catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
     catchments = pcr.clump(catchments)
+    catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
     newnum_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     print(newnum_of_identified_catchments)
 pcr.aguila(catchments)
