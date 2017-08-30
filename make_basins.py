@@ -30,7 +30,7 @@ landmask = pcr.defined(ldd_map)
 # remove all islands smaller than the minimum size
 islands     = pcr.clump(landmask)
 islands     = pcr.ifthen(pcr.scalar(islands) > 0, islands)
-islands     = pcr.ifthen(areatotal(cellsize, islands) > minimum_area, islands)
+islands     = pcr.ifthen(pcr.areatotal(cellsize, islands) > minimum_area, islands)
 pcr.aguila(islands)
 
 #~ # derive catchments and their sizes:
