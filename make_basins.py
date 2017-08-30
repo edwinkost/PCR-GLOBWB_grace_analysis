@@ -49,9 +49,10 @@ catchments = pcr.clump(catchments)
 pcr.aguila(catchments)
 
 # integrate 
-pre_number_of_identified_catchments = 0.0
-new_number_of_identified_catchments = 1.0
-#~ while  
+number_of_identified_catchments = float(pcr.mapmaximum(catchments))
+print(number_of_identified_catchments)
+prenum_of_identified_catchments = 0.0
+#~ while prenum_of_identified_catchments != number_of_identified_catchments 
 
 
 #~ 
