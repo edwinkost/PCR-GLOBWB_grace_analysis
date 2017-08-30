@@ -42,7 +42,7 @@ ldd_map  = pcr.lddrepair(ldd_map)
 ldd_map  = pcr.lddrepair(ldd_map)
 
 # derive catchments
-catchments = pcr.catchment(ldd_map, pit(ldd_map))
+catchments = pcr.catchment(ldd_map, pcr.pit(ldd_map))
 # - remove all catchments smaller than the minimum size
 catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
 catchments = pcr.clump(catchments)
