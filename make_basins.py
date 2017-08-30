@@ -31,7 +31,7 @@ landmask = pcr.ifthen(pcr.defined(ldd_map), pcr.boolean(1.0))
 islands  = pcr.clump(landmask)
 islands  = pcr.ifthen(pcr.areatotal(cellsize, islands) > minimum_area, islands)
 landmask = pcr.ifthen(pcr.defined(islands), pcr.boolean(1.0))
-pcr.aguila(landmask)
+#~ pcr.aguila(landmask)
 
 # redefine ldd, landmask and cell size maps that will be used
 cellsize = pcr.ifthen(landmask, cellsize)
@@ -46,7 +46,7 @@ catchments = pcr.catchment(ldd_map, pcr.pit(ldd_map))
 # - remove all catchments smaller than the minimum size
 catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
 catchments = pcr.clump(catchments)
-pcr.aguila(catchments)
+#~ pcr.aguila(catchments)
 
 # integrate the near
 number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
@@ -58,6 +58,7 @@ while newnum_of_identified_catchments != number_of_identified_catchments:
     catchments = pcr.cover(catchments, pcr.windowmajority(catchments, window_size))
     catchments = pcr.catchment(ldd_map, catchments)
     pcr.aguila(catchments)
+    newnum_of_identified_catchments = number_of_identified_catchments
     #~ catchments = 
 #~ 
     #~ catchments = pcr.clump(catchments)
