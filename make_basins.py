@@ -26,10 +26,9 @@ minimum_area = 300. * 300. * 1000. * 1000.
 # TODO: Shall we also set the maximum size?
 
 # derive landmask
-landmask = pcr.defined(ldd_map)
+landmask = pcr.ifthen(pcr.defined(ldd_map), pcr.boolean(1.0))
 # remove all islands smaller than the minimum size
 islands     = pcr.clump(landmask)
-islands     = pcr.ifthen(pcr.scalar(islands) > 0, islands)
 islands     = pcr.ifthen(pcr.areatotal(cellsize, islands) > minimum_area, islands)
 pcr.aguila(islands)
 
