@@ -48,7 +48,7 @@ catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catc
 catchments = pcr.clump(catchments)
 #~ pcr.aguila(catchments)
 
-# integrate the near
+# integrate small catchments to their nearest catchments that have been identified 
 number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
 print(number_of_identified_catchments)
 newnum_of_identified_catchments = 0.0
@@ -61,9 +61,10 @@ while newnum_of_identified_catchments != number_of_identified_catchments:
     catchments = pcr.ifthen(pcr.scalar(catchments) > 0.0, catchments)
     catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
     catchments = pcr.clump(catchments)
-    pcr.aguila(catchments)
     newnum_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     print(newnum_of_identified_catchments)
+    #~ pcr.aguila(catchments)
+    
 
 
 #~ 
