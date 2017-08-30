@@ -27,10 +27,19 @@ minimum_area = 300. * 300. * 1000. * 1000.
 
 # derive landmask
 landmask = pcr.ifthen(pcr.defined(ldd_map), pcr.boolean(1.0))
-# remove all islands smaller than the minimum size
-islands     = pcr.clump(landmask)
-islands     = pcr.ifthen(pcr.areatotal(cellsize, islands) > minimum_area, islands)
-pcr.aguila(islands)
+# - remove all islands smaller than the minimum size
+islands  = pcr.clump(landmask)
+islands  = pcr.ifthen(pcr.areatotal(cellsize, islands) > minimum_area, islands)
+landmask = pcr.ifthen(pcr.defined(islands), pcr.boolean(1.0))
+pcr.aguila(landmask)
+
+# redefine ldd, landmask and cell size maps that will be used
+cellsize = pcr.ifthen(landmask, cellsize)
+landmask = pcr.ifthen(landmask, landmask)
+ldd_map  = pcr.ifthen(landmask, ldd_map)
+# - repair ldd # TODO: Check whether we really need this?
+ldd_map  = pcr.lddrepair(ldd_map)
+ldd_map  = pcr.lddrepair(ldd_map)
 
 #~ # derive catchments and their sizes:
 #~ catchments = "catchment(lddsound_05min.map, pit(lddsound_05min.map))" 
