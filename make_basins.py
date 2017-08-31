@@ -70,7 +70,10 @@ pcr.aguila(catchments)
 pcr.report(catchments, "catchments.map")
 
 # identify cells/islands/basins that have not been identified
-not_selected_yet       = pcr.ifthen(landmask, pcr.ifthenelse(pcr.defined(catchments), pcr.boolean(0.0), pcr.boolean(1.0)))
+#~ pcrcalc "not_selected_yet.map = if( defined(catchements.map) , boolean(0.0), boolean(1.0) )"
+#~ pcrcalc "not_selected_yet.map = if(landmask, not_selected_yet.map)"
+#~ pcrcalc "not_selected_yet.map = if(not_selected_yet.map, not_selected_yet.map)"
+#
 areas_not_selected_yet = pcr.clump(not_selected_yet)
 areas_not_selected_yet = pcr.ifthen(pcr.scalar(areas_not_selected_yet) > 0.0, areas_not_selected_yet)
 pcr.report(areas_not_selected_yet, "areas_not_selected_yet.map")
