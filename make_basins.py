@@ -51,7 +51,7 @@ catchments = pcr.clump(catchments)
 catchments = pcr.ifthen(pcr.scalar(catchments) > 0.0, catchments)
 #~ pcr.aguila(catchments)
 
-# integrate small catchments to their nearest catchments that have been identified 
+# integrate small catchments to their nearest catchments that have been identified - with BIG window_size
 number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
 print(number_of_identified_catchments)
 # - window size (in arc degree)
@@ -66,33 +66,50 @@ for i_iter in range(0, 20):
     catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
     newnum_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     print(newnum_of_identified_catchments)
+catchments = pcr.ifthen(pcr.defined(catchments), catchments)
 pcr.aguila(catchments)
 pcr.report(catchments, "catchments.map")
 
 # identify cells/islands/basins that have not been identified
-#~ pcrcalc "not_selected_yet.map = if( defined(catchements.map) , boolean(0.0), boolean(1.0) )"
-#~ pcrcalc "not_selected_yet.map = if(landmask, not_selected_yet.map)"
-#~ pcrcalc "not_selected_yet.map = if(not_selected_yet.map, not_selected_yet.map)"
-#
+not_selected_yet = pcr.ifthenelse(pcr.defined(catchments), pcr.boolean(0.0), pcr.boolean(1.0))
+not_selected_yet = pcr.ifthen(landmask, not_selected_yet)
+not_selected_yet = pcr.ifthen(not_selected_yet, not_selected_yet)
 areas_not_selected_yet = pcr.clump(not_selected_yet)
 areas_not_selected_yet = pcr.ifthen(pcr.scalar(areas_not_selected_yet) > 0.0, areas_not_selected_yet)
+areas_not_selected_yet = pcr.ifthen(pcr.areatotal(cellsize, areas_not_selected_yet) > minimum_area, areas_not_selected_yet)
+areas_not_selected_yet = pcr.ifthen(pcr.defined(areas_not_selected_yet), areas_not_selected_yet)
+pcr.aguila(areas_not_selected_yet)
 pcr.report(areas_not_selected_yet, "areas_not_selected_yet.map")
 
-#~ # 1
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "cover(extended_selected_catchment_lddsound_05min.map, windowmajority(extended_selected_catchment_lddsound_05min.map, celllength() * 1.5))"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(areatotal(cellsize05min.correct.map, extended_selected_catchment_lddsound_05min.map) ge 300 * 300 * 1000 * 1000, extended_selected_catchment_lddsound_05min.map)"
-#~ 
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if( defined(lddsound_05min.map), catchment(lddsound_05min.map, extended_selected_catchment_lddsound_05min.map))"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(scalar(extended_selected_catchment_lddsound_05min.map) gt 0, extended_selected_catchment_lddsound_05min.map)"
-#~ 
-#~ pcrcalc not_selected_yet.map = "if(defined(extended_selected_catchment_lddsound_05min.map), nominal(0), selected_catchment_lddsound_05min.map)"
-#~ pcrcalc catchment_not_selected_yet.map = "if(scalar(not_selected_yet.map) gt 0, windowmajority(extended_selected_catchment_lddsound_05min.map, celllength() * 1.5))"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "cover(extended_selected_catchment_lddsound_05min.map, catchment_not_selected_yet.map)"
-#~ 
-#~ 
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "clump(extended_selected_catchment_lddsound_05min.map)"
-#~ pcrcalc extended_selected_catchment_lddsound_05min.map = "if(areatotal(cellsize05min.correct.map, extended_selected_catchment_lddsound_05min.map) ge 300 * 300 * 1000 * 1000, extended_selected_catchment_lddsound_05min.map)"
-#~ aguila extended_selected_catchment_lddsound_05min.map
-#~ 
-#~ 
+
+# merge "catchments" and "areas_not_selected_yet.map"
+catchment_group_scalar = pcr.cover(pcr.scalar(catchments), 0.0)
+catchment_group_scalar = pcr.cover(pcr.scalar(areas_not_selected_yet.map) + pcr.mapmaximum(catchment_group_scalar)*10.0, 0.0) + catchment_group_scalar
+catchment_group_scalar = pcr.ifthen(catchment_group_scalar > 0.0, catchment_group_scalar)
+catchment_group = pcr.clump(pcr.nominal(catchment_group_scalar))
+catchment_group = pcr.ifthen(pcr.scalar(catchment_group) > 0.0, catchment_group)
+catchment_group = pcr.ifthen(pcr.areatotal(cellsize, catchment_group) > minimum_area, catchment_group)
+catchment_group = pcr.ifthen(pcr.defined(catchment_group), catchment_group)
+pcr.aguila(catchment_group)
+pcr.report(catchment_group, "catchment_group.map")
+
+
+# integrate small catchments to their nearest catchments that have been identified - with small window_size
+catchments = catchment_group
+number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
+print(number_of_identified_catchments)
+# - window size (in arc degree)
+window_size = pcr.celllength() * 1.05
+for i_iter in range(0, 10):
+    number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
+    catchments = pcr.cover(catchments, pcr.windowmajority(catchments, window_size))
+    catchments = pcr.catchment(ldd_map, catchments)
+    catchments = pcr.ifthen(pcr.scalar(catchments) > 0.0, catchments)
+    catchments = pcr.clump(catchments)
+    catchments = pcr.ifthen(pcr.scalar(catchments) > 0.0, catchments)
+    catchments = pcr.ifthen(pcr.areatotal(cellsize, catchments) > minimum_area, catchments)
+    newnum_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
+    print(newnum_of_identified_catchments)
+catchments = pcr.ifthen(pcr.defined(catchments), catchments)
+pcr.aguila(catchments)
+pcr.report(catchments, "catchment_group_final.map")
