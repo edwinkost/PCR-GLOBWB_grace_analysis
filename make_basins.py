@@ -84,8 +84,9 @@ pcr.report(areas_not_selected_yet, "areas_not_selected_yet.map")
 
 # merge "catchments" and "areas_not_selected_yet.map"
 catchment_group_scalar = pcr.cover(pcr.scalar(catchments), 0.0)
-catchment_group_scalar = pcr.cover(pcr.scalar(areas_not_selected_yet) + pcr.mapmaximum(catchment_group_scalar)*10.0, 0.0) + catchment_group_scalar
+catchment_group_scalar = pcr.cover(pcr.scalar(areas_not_selected_yet) + pcr.mapmaximum(catchment_group_scalar) * 10.0 + 1.0, 0.0) + catchment_group_scalar
 catchment_group_scalar = pcr.ifthen(catchment_group_scalar > 0.0, catchment_group_scalar)
+catchment_group_scalar = pcr.ifthen(landmask, catchment_group_scalar)
 catchment_group = pcr.clump(pcr.nominal(catchment_group_scalar))
 catchment_group = pcr.ifthen(pcr.scalar(catchment_group) > 0.0, catchment_group)
 catchment_group = pcr.ifthen(pcr.areatotal(cellsize, catchment_group) > minimum_area, catchment_group)
@@ -95,11 +96,11 @@ pcr.report(catchment_group, "catchment_group.map")
 
 
 # integrate small catchments to their nearest catchments that have been identified - with small window_size
-catchments = catchment_group
+catchments = pcr.ifthen(pcr.defined(catchment_group), catchment_group)
 number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
 print(number_of_identified_catchments)
 # - window size (in arc degree)
-window_size = pcr.celllength() * 1.05
+window_size = pcr.celllength() * 1.10
 for i_iter in range(0, 10):
     number_of_identified_catchments = float(pcr.mapmaximum(pcr.scalar(catchments)))
     catchments = pcr.cover(catchments, pcr.windowmajority(catchments, window_size))
