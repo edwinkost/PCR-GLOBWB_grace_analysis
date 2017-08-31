@@ -84,7 +84,7 @@ pcr.report(areas_not_selected_yet, "areas_not_selected_yet.map")
 
 # merge "catchments" and "areas_not_selected_yet.map"
 catchment_group_scalar = pcr.cover(pcr.scalar(catchments), 0.0)
-catchment_group_scalar = pcr.cover(pcr.scalar(areas_not_selected_yet.map) + pcr.mapmaximum(catchment_group_scalar)*10.0, 0.0) + catchment_group_scalar
+catchment_group_scalar = pcr.cover(pcr.scalar(areas_not_selected_yet) + pcr.mapmaximum(catchment_group_scalar)*10.0, 0.0) + catchment_group_scalar
 catchment_group_scalar = pcr.ifthen(catchment_group_scalar > 0.0, catchment_group_scalar)
 catchment_group = pcr.clump(pcr.nominal(catchment_group_scalar))
 catchment_group = pcr.ifthen(pcr.scalar(catchment_group) > 0.0, catchment_group)
