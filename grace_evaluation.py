@@ -15,7 +15,7 @@ import virtualOS as vos
 class GraceEvaluation(DynamicModel):
 
     def __init__(self, input_files,\
-                      output_files,\
+                       output_files,\
                        modelTime,\
                        main_tmp_dir = "/dev/shm/"):
         DynamicModel.__init__(self) 
@@ -38,13 +38,13 @@ class GraceEvaluation(DynamicModel):
         pcr.setclone(self.input_files["basin30minmap"]) 
         self.clone_map = pcr.boolean(1.0)
         #
-        # catchment ids map
+        # catchment id map
         self.catchment = pcr.nominal(\
-                         pcr.readmap(self.input_files["basin30minmap"]))
+                         pcr.readmap(self.input_files["basin"]))
         self.catchment = pcr.ifthen(pcr.scalar(self.catchment) > 0.0,\
-                             self.catchment)
+                                    self.catchment)
         # cell area map
-        self.cell_area = pcr.cover(pcr.readmap(self.input_files["area30min_map"]), 0.0)
+        self.cell_area = pcr.cover(pcr.readmap(self.input_files["model_cell_area"]), 0.0)
         
         # prepare grace monthly and annual anomaly time series
         self.pre_process_grace_file()
@@ -61,8 +61,9 @@ class GraceEvaluation(DynamicModel):
 
     def pre_process_grace_file(self): 
         
+        # STARTING FROM THIS
+        
         # using the scale factor to correct the original monthly grace file 
-        # (as recommended by Landerer & Swenson, 2012; see also http://grace.jpl.nasa.gov/data/gracemonthlymassgridsland/)
         grace_file  = self.input_files["grace_total_water_storage_original"]  # unit: cm
         scale_file  = self.input_files["grace_scale_factor"]                  # unit: cm
         output_file = self.output_files['one_degree_tws']['grace']            # unit:  m 
@@ -70,11 +71,11 @@ class GraceEvaluation(DynamicModel):
         end_year    =   str(self.modelTime.endTime.year)
         print("\n")
         print("test")
-        cdo_command = "cdo invertlat -selyear,"+str(start_year)+"/"+str(end_year)+\
+        cdo_command = "cdo -L invertlat -selyear,"+str(start_year)+"/"+str(end_year)+\
                       " -sellonlatbox,-180,180,-90,90"+\
                       " -mulc,0.01"+\
                       " -mul -selname,lwe_thickness "+str(grace_file)+\
-                      " -selname,SCALE_FACTOR "+str(scale_file)+\
+                      " -selname,scale_factor "+str(scale_file)+\
                       " "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
         
