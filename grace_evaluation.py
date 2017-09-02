@@ -45,7 +45,7 @@ class GraceEvaluation(DynamicModel):
                                     self.catchment)
         # cell area map
         self.cell_area = pcr.cover(pcr.readmap(self.input_files["model_cell_area"]), 0.0)
-        self.cell_area = pcr.ifthen(pcr.defined(self.catchment), self.catchment)
+        self.cell_area = pcr.ifthen(pcr.defined(self.catchment), self.cell_area)
         
         # prepare model monthly and annual anomaly time series
         self.pre_process_model_file()
@@ -135,9 +135,6 @@ class GraceEvaluation(DynamicModel):
                           "lwe_thickness",\
                           str(self.modelTime.fulldate), "mid-month"), 0.0)
             grace_value = pcr.ifthen(pcr.defined(self.catchment), grace_value)
-            pcr.report(grace_value, "grace_value.map")
-            pcr.report(self.catchment, "catchment.map")
-            pcr.report(self.cell_area, "cell_area.map")
             #
             basin_grace = pcr.areatotal(self.cell_area * grace_value, self.catchment)/\
                           pcr.areatotal(self.cell_area, self.catchment)
