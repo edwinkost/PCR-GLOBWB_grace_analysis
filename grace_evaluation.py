@@ -133,8 +133,7 @@ class GraceEvaluation(DynamicModel):
             grace_value = pcr.cover(vos.netcdf2PCRobjClone(\
                           self.output_files['originalscale_month_anomaly']['grace'],\
                           "lwe_thickness",\
-                          str(self.modelTime.fulldate), "mid-month",\
-                          self.input_files["model_cell_area"]), 0.0)
+                          str(self.modelTime.fulldate), "mid-month"), 0.0)
             grace_value = pcr.ifthen(pcr.defined(self.catchment), grace_value)
             #
             basin_grace = pcr.areatotal(self.cell_area * grace_value, self.catchment)/\
@@ -145,8 +144,7 @@ class GraceEvaluation(DynamicModel):
             model_value = pcr.cover(vos.netcdf2PCRobjClone(\
                           self.output_files['originalscale_month_anomaly']['model'],\
                           "pcrglobwb_tws",\
-                          str(self.modelTime.fulldate), "end-month",\
-                          self.input_files["model_cell_area"]), 0.0)
+                          str(self.modelTime.fulldate), "end-month"), 0.0)
             model_value = pcr.ifthen(pcr.defined(self.catchment), model_value)
             #
             basin_model = pcr.areatotal(self.cell_area * model_value, self.catchment)/\
