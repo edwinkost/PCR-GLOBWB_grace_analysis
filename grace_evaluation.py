@@ -41,8 +41,11 @@ class GraceEvaluation(DynamicModel):
         # catchment id map
         self.catchment = pcr.nominal(\
                          pcr.readmap(self.input_files["basin"]))
+        self.catchment = pcr.clump(self.catchment)
         self.catchment = pcr.ifthen(pcr.scalar(self.catchment) > 0.0,\
                                     self.catchment)
+        pcr.aguila(self.catchment)
+        
         # cell area map
         self.cell_area = pcr.cover(pcr.readmap(self.input_files["model_cell_area"]), 0.0)
         self.cell_area = pcr.ifthen(pcr.defined(self.catchment), self.cell_area)
