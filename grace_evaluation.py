@@ -143,7 +143,7 @@ class GraceEvaluation(DynamicModel):
             print("Upscaling PCR-GLOBWB to the basin resolution.")
             model_value = pcr.cover(vos.netcdf2PCRobjClone(\
                           self.output_files['originalscale_month_anomaly']['model'],\
-                          "pcrglobwb_tws",\
+                          self.input_files["model_total_water_storage_variable_name"],\
                           str(self.modelTime.fulldate), "end-month"), 0.0)
             model_value = pcr.ifthen(pcr.defined(self.catchment), model_value)
             #
