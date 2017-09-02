@@ -7,8 +7,6 @@ import sys
 # pcraster dynamic framework is used:
 from pcraster.framework import DynamicFramework
 
-# classes used in this script
-from dynamic_downscaling_framework import DownscalingFramework
 from grace_evaluation import GraceEvaluation
 
 # time object
