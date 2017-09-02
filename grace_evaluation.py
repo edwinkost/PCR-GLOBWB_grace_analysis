@@ -103,7 +103,7 @@ class GraceEvaluation(DynamicModel):
         print("\n")
         print("Focusing on the selected years only.")
         cdo_command = "cdo -L selyear,"+str(start_year)+"/"+str(end_year)+\
-                      "_"+ str(input_file) +\
+                      " "+ str(input_file) +\
                       " "+ str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
 
