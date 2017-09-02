@@ -57,8 +57,6 @@ class GraceEvaluation(DynamicModel):
         self.output = OutputNetcdf(self.input_files["model_cell_area"])
         self.output.createNetCDF(self.output_files['basinscale_tws_month_anomaly']['grace'], "lwe_thickness", "m")
         self.output.createNetCDF(self.output_files['basinscale_tws_month_anomaly']['model'], "pcrglobwb_tws", "m")
-        self.output.createNetCDF(self.output_files['basinscale_tws_annua_anomaly']['grace'], "lwe_thickness", "m")
-        self.output.createNetCDF(self.output_files['basinscale_tws_annua_anomaly']['model'], "pcrglobwb_tws", "m")
 
     def pre_process_grace_file(self, variable_name_for_scale_factor = "SCALE_FACTOR"): 
         
