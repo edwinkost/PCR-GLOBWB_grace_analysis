@@ -131,7 +131,7 @@ class GraceEvaluation(DynamicModel):
             # values from grace:
             print("Upscaling GRACE to the basin resolution.")
             grace_value = pcr.cover(vos.netcdf2PCRobjClone(\
-                          self.output_files['one_degree_tws_month_anomaly']['grace'],\
+                          self.output_files['originalscale_month_anomaly']['grace'],\
                           "lwe_thickness",\
                           str(self.modelTime.fulldate), "mid-month",\
                           self.input_files["model_cell_area"]), 0.0)
@@ -143,7 +143,7 @@ class GraceEvaluation(DynamicModel):
             # values from pcr-globwb simulation:
             print("Upscaling PCR-GLOBWB to the basin resolution.")
             model_value = pcr.cover(vos.netcdf2PCRobjClone(\
-                          self.output_files['one_degree_tws_month_anomaly']['model'],\
+                          self.output_files['originalscale_month_anomaly']['model'],\
                           "pcrglobwb_tws",\
                           str(self.modelTime.fulldate), "end-month",\
                           self.input_files["model_cell_area"]), 0.0)
