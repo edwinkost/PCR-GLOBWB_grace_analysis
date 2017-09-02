@@ -137,7 +137,7 @@ class GraceEvaluation(DynamicModel):
                           str(self.modelTime.fulldate), "mid-month"), 0.0)
             grace_value = pcr.ifthen(pcr.defined(self.catchment), grace_value)
             #
-            basin_grace = pcr.areatotal(self.cell_area * grace_value, self.catchment)/\
+            basin_grace = pcr.areatotal(self.cell_area * pcr.cover(grace_value, 0.0), self.catchment)/\
                           pcr.areatotal(self.cell_area, self.catchment)
 
             # values from pcr-globwb simulation:
