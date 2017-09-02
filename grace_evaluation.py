@@ -73,7 +73,7 @@ class GraceEvaluation(DynamicModel):
         output_file = self.output_files['originalscale_original_value']['grace'] 
         #
         print("\n")
-        print("Using the given factor to scale the original grace time series and focusing on the selected years only.")
+        print("Using the given factor to scale the original GRACE time series and focusing on the selected years only.")
         cdo_command = "cdo -L setunit,m -invertlat -selyear,"+str(start_year)+"/"+str(end_year)+\
                       " -sellonlatbox,-180,180,-90,90"+\
                       " -mulc,0.01"+\
@@ -101,7 +101,7 @@ class GraceEvaluation(DynamicModel):
         # - output file - unit: m
         output_file = self.output_files['originalscale_original_value']['model'] 
         print("\n")
-        print("Focusing on the selected years only.")
+        print("Using only the selected years of PCR-GLOBWB time series.")
         cdo_command = "cdo -L selyear,"+str(start_year)+"/"+str(end_year)+\
                       " "+ str(input_file) +\
                       " "+ str(output_file)
