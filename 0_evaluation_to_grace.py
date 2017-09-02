@@ -40,6 +40,18 @@ output_files = {}
 output_files['output_folder']                                = "/scratch-shared/edwinhs/grace_analysis_final/"
 cleanOutputFolder = True                                     
 #                                                            
+output_files['originalscale_original_value'] = {}            
+output_files['originalscale_original_value']['model']        = output_files['output_folder'] + "model_tws.nc" 
+output_files['originalscale_original_value']['grace']        = output_files['output_folder'] + "grace_tws.nc"
+#                                                            
+output_files['originalscale_month_anomaly'] = {}            
+output_files['originalscale_month_anomaly']['model']         = output_files['output_folder'] + "model_tws_month_anomaly.nc" 
+output_files['originalscale_month_anomaly']['grace']         = output_files['output_folder'] + "grace_tws_month_anomaly.nc"
+#
+output_files['originalscale_annua_anomaly'] = {}            
+output_files['originalscale_annua_anomaly']['model']         = output_files['output_folder'] + "model_tws_annua_anomaly.nc" 
+output_files['originalscale_annua_anomaly']['grace']         = output_files['output_folder'] + "grace_tws_annua_anomaly.nc"
+#
 output_files['basinscale_tws_month_anomaly'] = {}            
 output_files['basinscale_tws_month_anomaly']['model']        = output_files['output_folder'] + "model_tws_at_basinscale_month_anomaly.nc" 
 output_files['basinscale_tws_month_anomaly']['grace']        = output_files['output_folder'] + "grace_tws_at_basinscale_month_anomaly.nc"

@@ -34,8 +34,8 @@ class GraceEvaluation(DynamicModel):
             os.system('rm -r '+str(self.main_tmp_dir)+'*')
             os.makedirs(self.main_tmp_dir)
 
-        # clone map for pcraster process - depend on the resolution of the basin/catchment map
-        pcr.setclone(self.input_files["basin30minmap"]) 
+        # clone map for pcraster process - depend on the resolution of PCR-GLOBWB model
+        pcr.setclone(self.input_files["model_cell_area"]) 
         self.clone_map = pcr.boolean(1.0)
         #
         # catchment id map
@@ -45,70 +45,76 @@ class GraceEvaluation(DynamicModel):
                                     self.catchment)
         # cell area map
         self.cell_area = pcr.cover(pcr.readmap(self.input_files["model_cell_area"]), 0.0)
+        self.cell_area = pcr.ifthen(pcr.defined(self.catchment), self.catchment)
         
-        # prepare grace monthly and annual anomaly time series
-        self.pre_process_grace_file()
-
         # prepare model monthly and annual anomaly time series
         self.pre_process_model_file()
 
-        # prepare object for writing netcdf files:
-        self.output = OutputNetcdf(self.input_files["area30min_map"])
-        self.output.createNetCDF(self.output_files['basinscale_tws_month_anomaly']['grace'], "lwe_thickness","m")
-        self.output.createNetCDF(self.output_files['basinscale_tws_month_anomaly']['model'], "pcrglobwb_tws","m")
-        self.output.createNetCDF(self.output_files['basinscale_tws_annua_anomaly']['grace'], "lwe_thickness","m")
-        self.output.createNetCDF(self.output_files['basinscale_tws_annua_anomaly']['model'], "pcrglobwb_tws","m")
+        # prepare grace monthly and annual anomaly time series
+        self.pre_process_grace_file("scale_factor")
 
-    def pre_process_grace_file(self): 
+        # prepare object for writing netcdf files:
+        self.output = OutputNetcdf(self.input_files["model_cell_area"])
+        self.output.createNetCDF(self.output_files['basinscale_tws_month_anomaly']['grace'], "lwe_thickness", "m")
+        self.output.createNetCDF(self.output_files['basinscale_tws_month_anomaly']['model'], "pcrglobwb_tws", "m")
+        self.output.createNetCDF(self.output_files['basinscale_tws_annua_anomaly']['grace'], "lwe_thickness", "m")
+        self.output.createNetCDF(self.output_files['basinscale_tws_annua_anomaly']['model'], "pcrglobwb_tws", "m")
+
+    def pre_process_grace_file(self, variable_name_for_scale_factor = "SCALE_FACTOR"): 
         
-        # STARTING FROM THIS
-        
-        # using the scale factor to correct the original monthly grace file 
-        grace_file  = self.input_files["grace_total_water_storage_original"]  # unit: cm
-        scale_file  = self.input_files["grace_scale_factor"]                  # unit: cm
-        output_file = self.output_files['one_degree_tws']['grace']            # unit:  m 
+        # using the scale factor to correct the original monthly grace file and use only the selected years
+        # - input files - unit: cm
+        grace_file  = self.input_files["grace_total_water_storage_original"]
+        scale_file  = self.input_files["grace_scale_factor"]                
+        # - period of interest 
         start_year  = str(self.modelTime.startTime.year)
         end_year    =   str(self.modelTime.endTime.year)
+        # - output file - unit: m
+        output_file = self.output_files['originalscale_original_value']['grace'] 
+        #
         print("\n")
-        print("test")
-        cdo_command = "cdo -L invertlat -selyear,"+str(start_year)+"/"+str(end_year)+\
+        print("Using the given factor to scale the original grace time series and focusing on the selected years only.")
+        cdo_command = "cdo -L setunit,m -invertlat -selyear,"+str(start_year)+"/"+str(end_year)+\
                       " -sellonlatbox,-180,180,-90,90"+\
                       " -mulc,0.01"+\
                       " -mul -selname,lwe_thickness "+str(grace_file)+\
-                      " -selname,scale_factor "+str(scale_file)+\
+                      " -selname," + str(variable_name_for_scale_factor) + " " + str(scale_file)+\
                       " "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
         
         # calculate monthly anomaly:  
-        input_file  = self.output_files['one_degree_tws']['grace']
-        output_file = self.output_files['one_degree_tws_month_anomaly']['grace']
+        input_file  = self.output_files['originalscale_original_value']['grace']
+        output_file = self.output_files['originalscale_month_anomaly' ]['grace']
         print("\n")
-        cdo_command = "cdo sub "+str(input_file)+" -timmean"+" "+str(input_file)+" "+str(output_file)
-        print(cdo_command); os.system(cdo_command); print("\n") 
-
-        # calculate yearly anomaly:  
-        input_file  = self.output_files['one_degree_tws_month_anomaly']['grace']
-        output_file = self.output_files['one_degree_tws_annua_anomaly']['grace']
-        print("\n")
-        cdo_command = "cdo yearmean "+str(input_file)+" "+str(output_file)
+        print("Calculate the monthly anomaly time series of GRACE.")
+        cdo_command = "cdo -L sub "+str(input_file)+" -timmean"+" "+str(input_file)+" "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
 
     def pre_process_model_file(self): 
         
-        # calculate monthly anomaly:
-        input_file  = self.output_files['one_degree_tws']['model']
-        output_file = self.output_files['one_degree_tws_month_anomaly']['model']
+        # focusing on the selected years only
+        # - input fils - unit: m
+        input_file  = self.input_files["model_total_water_storage"]
+        # - period of interest 
+        start_year  = str(self.modelTime.startTime.year)
+        end_year    =   str(self.modelTime.endTime.year)
+        # - output file - unit: m
+        output_file = self.output_files['originalscale_original_value']['model'] 
         print("\n")
-        cdo_command = "cdo sub "+str(input_file)+" -timmean"+" "+str(input_file)+" "+str(output_file)
-        print(cdo_command); os.system(cdo_command); print("\n") 
- 
-        # calculate yearly anomaly:  
-        input_file  = self.output_files['one_degree_tws_month_anomaly']['model']
-        output_file = self.output_files['one_degree_tws_annua_anomaly']['model']
-        print("\n")
-        cdo_command = "cdo yearmean "+str(input_file)+" "+str(output_file)
+        print("Focusing on the selected years only.")
+        cdo_command = "cdo -L -selyear,"+str(start_year)+"/"+str(end_year)+\
+                      "_"+ str(input_file) +\
+                      " "+ str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
 
+        # calculate monthly anomaly:
+        input_file  = self.output_files['originalscale_original_value']['model']
+        output_file = self.output_files['originalscale_month_anomaly' ]['model']
+        print("\n")
+        print("Calculate the monthly anomaly time series of PCR-GLOBWB.")
+        cdo_command = "cdo -L sub "+str(input_file)+" -timmean"+" "+str(input_file)+" "+str(output_file)
+        print(cdo_command); os.system(cdo_command); print("\n") 
+ 
     def initial(self): 
         pass
 
@@ -123,21 +129,25 @@ class GraceEvaluation(DynamicModel):
         if self.modelTime.endMonth == True:
 
             # values from grace:
+            print("Upscaling GRACE to the basin resolution.")
             grace_value = pcr.cover(vos.netcdf2PCRobjClone(\
                           self.output_files['one_degree_tws_month_anomaly']['grace'],\
                           "lwe_thickness",\
                           str(self.modelTime.fulldate), "mid-month",\
-                          self.input_files["basin30minmap"]), 0.0)
+                          self.input_files["model_cell_area"]), 0.0)
+            grace_value = pcr.ifthen(pcr.defined(self.catchment), grace_value)
             #
             basin_grace = pcr.areatotal(self.cell_area * grace_value, self.catchment)/\
                           pcr.areatotal(self.cell_area, self.catchment)
 
             # values from pcr-globwb simulation:
+            print("Upscaling PCR-GLOBWB to the basin resolution.")
             model_value = pcr.cover(vos.netcdf2PCRobjClone(\
                           self.output_files['one_degree_tws_month_anomaly']['model'],\
                           "pcrglobwb_tws",\
                           str(self.modelTime.fulldate), "end-month",\
-                          self.input_files["basin30minmap"]), 0.0)
+                          self.input_files["model_cell_area"]), 0.0)
+            model_value = pcr.ifthen(pcr.defined(self.catchment), model_value)
             #
             basin_model = pcr.areatotal(self.cell_area * model_value, self.catchment)/\
                           pcr.areatotal(self.cell_area, self.catchment)
@@ -172,53 +182,49 @@ class GraceEvaluation(DynamicModel):
 
     def prepare_annual_anomaly(self): 
         
-        # prepare one degree - grace - annual anomaly time series
-        input_file  = self.output_files["one_degree_tws_month_anomaly"]['grace']
-        output_file = self.output_files["one_degree_tws_annua_anomaly"]['grace']
+        # calculate yearly anomaly of GRACE:  
+        input_file  = self.output_files['originalscale_month_anomaly' ]['grace']
+        output_file = self.output_files['originalscale_annua_anomaly' ]['grace']
         print("\n")
-        cdo_command = "cdo yearmean "+str(input_file)+" "+str(output_file)
-        print(cdo_command); os.system(cdo_command); print("\n") 
-
-        # prepare one degree - model - annual anomaly time series
-        input_file  = self.output_files["one_degree_tws_month_anomaly"]['model']
-        output_file = self.output_files["one_degree_tws_annua_anomaly"]['model']
-        print("\n")
-        cdo_command = "cdo yearmean "+str(input_file)+" "+str(output_file)
+        print("Calculate the annual anomaly time series of GRACE.")
+        cdo_command = "cdo -L yearmean "+str(input_file)+" "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
 
         # prepare basin scale - grace - annual anomaly time series
         input_file  = self.output_files["basinscale_tws_month_anomaly"]['grace']
         output_file = self.output_files["basinscale_tws_annua_anomaly"]['grace']
         print("\n")
-        cdo_command = "cdo yearmean "+str(input_file)+" "+str(output_file)
+        cdo_command = "cdo -L yearmean "+str(input_file)+" "+str(output_file)
+        print(cdo_command); os.system(cdo_command); print("\n") 
+
+        # calculate yearly anomaly of PCR-GLOBWB:  
+        input_file  = self.output_files['originalscale_month_anomaly' ]['model']
+        output_file = self.output_files['originalscale_annua_anomaly' ]['model']
+        print("\n")
+        print("Calculate the annual anomaly time series of PCR-GLOBWB.")
+        cdo_command = "cdo -L yearmean "+str(input_file)+" "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
 
         # prepare basin scale - model - annual anomaly time series
         input_file  = self.output_files["basinscale_tws_month_anomaly"]['model']
         output_file = self.output_files["basinscale_tws_annua_anomaly"]['model']
         print("\n")
-        cdo_command = "cdo yearmean "+str(input_file)+" "+str(output_file)
+        cdo_command = "cdo -L yearmean "+str(input_file)+" "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
 
 
     def evaluate_to_grace_data(self): 
 
-        # one degree and monthly resolution
-        self.evaluation(self.output_files['one_degree_tws_month_anomaly']['model'],\
-                        self.output_files['one_degree_tws_month_anomaly']['grace'],\
-                           self.output_files['one_degree_month_analyses'])
-        
         # basin and monthly resolution
+        print("\n")
+        print("Evaluate the MONTHLY time series at the basin resolution.")
         self.evaluation(self.output_files['basinscale_tws_month_anomaly']['model'],\
                         self.output_files['basinscale_tws_month_anomaly']['grace'],\
                            self.output_files['basinscale_month_analyses'])
 
-        # one degree and annual resolution
-        self.evaluation(self.output_files['one_degree_tws_annua_anomaly']['model'],\
-                        self.output_files['one_degree_tws_annua_anomaly']['grace'],\
-                           self.output_files['one_degree_annua_analyses'])
-        
         # basin and annual resolution
+        print("\n")
+        print("Evaluate the ANNUAL time series at the basin resolution.")
         self.evaluation(self.output_files['basinscale_tws_annua_anomaly']['model'],\
                         self.output_files['basinscale_tws_annua_anomaly']['grace'],\
                            self.output_files['basinscale_annua_analyses'])
@@ -228,25 +234,25 @@ class GraceEvaluation(DynamicModel):
         # bias
         output_file = output_files['bias']
         print("\n")
-        cdo_command = "cdo sub -timmean "+str(model_file)+" -timmean "+str(grace_file)+" "+str(output_file)
+        cdo_command = "cdo -L sub -timmean "+str(model_file)+" -timmean "+str(grace_file)+" "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n") 
 
         # mae
         output_file = output_files['mae']
         print("\n")
-        cdo_command = "cdo timmean -abs -sub "+str(model_file)+" "+str(grace_file)+" "+str(output_file)
+        cdo_command = "cdo -L timmean -abs -sub "+str(model_file)+" "+str(grace_file)+" "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n")
 
         # correlation
         output_file = output_files['correlation']
         print("\n")
-        cdo_command = "cdo setunit,1 -timcor "+str(grace_file)+" "+str(model_file)+" "+str(output_file)
+        cdo_command = "cdo -L setunit,1 -timcor "+str(grace_file)+" "+str(model_file)+" "+str(output_file)
         print(cdo_command); os.system(cdo_command); print("\n")
         
         # relative interquantile range error
         model_range_file = output_files['rel_iqtil_error']+".inter_qtile.model.nc"
         print("\n")
-        cdo_command = "cdo sub "+\
+        cdo_command = "cdo -L sub "+\
                       "-timpctl,95 "+str(model_file)+" "+\
                       "-timmin "    +str(model_file)+" "+\
                       "-timmax "    +str(model_file)+" "+\
@@ -255,7 +261,7 @@ class GraceEvaluation(DynamicModel):
                       "-timmax "    +str(model_file)+" "+model_range_file
         print(cdo_command); os.system(cdo_command); print("\n")
         grace_range_file = output_files['rel_iqtil_error']+".inter_qtile.grace.nc"
-        cdo_command = "cdo sub "+\
+        cdo_command = "cdo -L sub "+\
                       "-timpctl,95 "+str(grace_file)+" "+\
                       "-timmin "    +str(grace_file)+" "+\
                       "-timmax "    +str(grace_file)+" "+\
@@ -265,7 +271,7 @@ class GraceEvaluation(DynamicModel):
         print(cdo_command); os.system(cdo_command); print("\n")
         output_file = output_files['rel_iqtil_error']
         print("\n")
-        cdo_command = "cdo setunit,1 -div "+\
+        cdo_command = "cdo -L setunit,1 -div "+\
                       "-sub "+model_range_file+" "+grace_range_file+" "+\
                       " "+grace_range_file+" "+output_file
         print(cdo_command); os.system(cdo_command); print("\n")
@@ -275,7 +281,7 @@ class GraceEvaluation(DynamicModel):
         grace_range_file = output_files['rel_iqtil_error']+".inter_qtile.grace.nc"
         output_file = output_files['relative_mae']
         print("\n")
-        cdo_command = "cdo div "+\
+        cdo_command = "cdo -L div "+\
                       str(mae_file)+" "+\
                       str(grace_range_file)+" "+\
                       str(output_file)
