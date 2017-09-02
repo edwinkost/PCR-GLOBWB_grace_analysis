@@ -136,6 +136,7 @@ class GraceEvaluation(DynamicModel):
                           "lwe_thickness",\
                           str(self.modelTime.fulldate), "mid-month"), 0.0)
             grace_value = pcr.ifthen(pcr.defined(self.catchment), grace_value)
+            pcr.aguila(grace_value)
             #
             basin_grace = pcr.areatotal(self.cell_area * pcr.cover(grace_value, 0.0), self.catchment)/\
                           pcr.areatotal(self.cell_area, self.catchment)
