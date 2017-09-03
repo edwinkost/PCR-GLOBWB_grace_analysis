@@ -29,7 +29,7 @@ input_files["model_cell_area"]                               = '/projects/0/dfgu
 # - catchment/basin/aquifer classification  
 input_files["basin"]                                         = '/scratch-shared/edwinhs/basin_for_grace_evaluation/catchment_group_final.map' 
 #                                                            
-# - grace input files (must be resampled first to the PCR-GLOBWB resolution) - unit: cm                                    
+# - grace input files (must be resampled first to the PCR-GLOBWB resolution and its latitutde orientation must be consistent to the PCR-GLOBWB's) - unit: cm                                    
 input_files["grace_total_water_storage_original"]            = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02.edwin.05min.nc'
 input_files["grace_scale_factor"]                            = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/CLM4.SCALE_FACTOR.JPL.MSCNv01CRIv01.edwin.05min.nc'
                                                              

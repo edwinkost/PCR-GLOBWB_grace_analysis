@@ -44,7 +44,7 @@ class GraceEvaluation(DynamicModel):
         self.catchment = pcr.clump(self.catchment)
         self.catchment = pcr.ifthen(pcr.scalar(self.catchment) > 0.0,\
                                     self.catchment)
-        pcr.aguila(self.catchment)
+        #~ pcr.aguila(self.catchment)
         
         # cell area map
         self.cell_area = pcr.cover(pcr.readmap(self.input_files["model_cell_area"]), 0.0)
@@ -75,7 +75,7 @@ class GraceEvaluation(DynamicModel):
         #
         print("\n")
         print("Using the given factor to scale the original GRACE time series and focusing on the selected years only.")
-        cdo_command = "cdo -L setunit,m -invertlat -selyear,"+str(start_year)+"/"+str(end_year)+\
+        cdo_command = "cdo -L setunit,m -selyear,"+str(start_year)+"/"+str(end_year)+\
                       " -sellonlatbox,-180,180,-90,90"+\
                       " -mulc,0.01"+\
                       " -mul -selname,lwe_thickness "+str(grace_file)+\
@@ -136,7 +136,7 @@ class GraceEvaluation(DynamicModel):
                           "lwe_thickness",\
                           str(self.modelTime.fulldate), "mid-month"), 0.0)
             grace_value = pcr.ifthen(pcr.defined(self.catchment), grace_value)
-            pcr.aguila(grace_value)
+            #~ pcr.aguila(grace_value)
             #
             basin_grace = pcr.areatotal(self.cell_area * pcr.cover(grace_value, 0.0), self.catchment)/\
                           pcr.areatotal(self.cell_area, self.catchment)
