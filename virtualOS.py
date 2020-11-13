@@ -1809,7 +1809,7 @@ def findISIFileName(year,model,rcp,prefix,var):
     return "%s_%s_%s_%s_%i-%i.nc" %(var,prefix,model.lower(),rcpStr,sY,eY)
 
  
-def get_random_word(wordLen):
+def get_random_word(wordLen = 8):
     word = ''
     for i in range(wordLen):
         word += random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')
