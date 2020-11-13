@@ -39,9 +39,13 @@ class GraceEvaluation(DynamicModel):
         self.clone_map = pcr.boolean(1.0)
         #
         # catchment id map
-        self.catchment = pcr.nominal(\
-                         pcr.readmap(self.input_files["basin"]))
-        self.catchment = pcr.clump(self.catchment)
+        # ~ self.catchment = pcr.nominal(\
+                         # ~ pcr.readmap(self.input_files["basin"]))
+        # ~ self.catchment = pcr.clump(self.catchment)
+        self.catchment = vos.readPCRmapClone(v = self.input_files["basin"], 
+                                        cloneMapFileName = self.input_files["model_cell_area"], 
+                                        tmpDir = self.main_tmp_dir, 
+                                        absolutePath = None, isLddMap = False, cover = None, isNomMap = True)
         self.catchment = pcr.ifthen(pcr.scalar(self.catchment) > 0.0,\
                                     self.catchment)
         #~ pcr.aguila(self.catchment)
