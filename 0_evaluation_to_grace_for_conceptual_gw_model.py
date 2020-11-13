@@ -34,6 +34,23 @@ input_files["basin"]                                         = '/scratch/depfg/s
 # - grace input files (must be resampled first to the PCR-GLOBWB resolution and its latitutde orientation must be consistent to the PCR-GLOBWB's) - unit: cm                                    
 input_files["grace_total_water_storage_original"]            = '/scratch/depfg/sutan101/data/observation_data/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02.edwin.05min.nc'
 input_files["grace_scale_factor"]                            = '/scratch/depfg/sutan101/data/observation_data/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/CLM4.SCALE_FACTOR.JPL.MSCNv01CRIv01.edwin.05min.nc'
+
+input_files["grace_total_water_storage_original"]            = '/scratch/depfg/sutan101/validation_for_gw_conceptual_model/grace_data_used/GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02_05min.nc'
+input_files["grace_scale_factor"]                            = '/scratch/depfg/sutan101/validation_for_gw_conceptual_model/grace_data_used/CLM4.SCALE_FACTOR.JPL.MSCNv01CRIv01_05min.nc'
+
+# ~ sutan101@gpu040.cluster:/scratch/depfg/sutan101/validation_for_gw_conceptual_model/grace_data_used$ ls -lah
+# ~ total 23G
+# ~ drwxr-xr-x 2 sutan101 depfg    8 Nov 13 12:00 .
+# ~ drwxr-xr-x 4 sutan101 depfg    2 Nov 13 11:54 ..
+# ~ -rwxr-xr-x 1 sutan101 depfg 2.0M Aug 29  2017 CLM4.SCALE_FACTOR.JPL.MSCNv01CRIv01.nc
+# ~ -rw-r--r-- 1 sutan101 depfg  72M Nov 13 11:58 CLM4.SCALE_FACTOR.JPL.MSCNv01CRIv01_05min.nc
+# ~ -rwxr-xr-x 1 sutan101 depfg 629M Aug 29  2017 GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02.nc
+# ~ -rw-r--r-- 1 sutan101 depfg  23G Nov 13 12:05 GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02_05min.nc
+# ~ -rw-r--r-- 1 sutan101 depfg  108 Nov 13 11:55 SOURCE.TXT
+# ~ -rwxr-xr-x 1 sutan101 depfg  36M Nov 11  2019 cellsize05min.correct.map
+# ~ -rw-r--r-- 1 sutan101 depfg  36M Nov 14  2019 cellsize05min.correct.nc
+# ~ -rw-r--r-- 1 sutan101 depfg  330 Nov 13 11:57 griddes_cellsize05min.correct.nc.txt
+
                                                              
 # output files:                                              
 output_files = {}                                            
