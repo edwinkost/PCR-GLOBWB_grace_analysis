@@ -120,7 +120,7 @@ def netcdf2PCRobjCloneWithoutTime(ncFile,varName,
 def netcdf2PCRobjClone(ncFile,varName,dateInput,\
                        useDoy = None,
                        cloneMapFileName  = None,\
-                       LatitudeLongitude = False,\
+                       LatitudeLongitude = True,\
                        specificFillValue = None):
     # 
     # EHS (19 APR 2013): To convert netCDF (tss) file to PCR file.
