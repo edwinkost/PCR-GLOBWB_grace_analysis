@@ -33,8 +33,8 @@ input_files["basin"]                                         = '/depfg/sutan101/
 # - grace input files (must be resampled first to the PCR-GLOBWB resolution and its latitutde orientation must be consistent to the PCR-GLOBWB's) - unit: cm                                    
 # ~ input_files["grace_total_water_storage_original"]        = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02.edwin.05min.nc'
 # ~ input_files["grace_scale_factor"]                        = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/CLM4.SCALE_FACTOR.JPL.MSCNv01CRIv01.edwin.05min.nc'
-input_files["grace_total_water_storage_original"]            = '/scratch/depfg/sutan101/data/grace_downloaded_2023_05_may/lwe_thickness_GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min.nc'
-input_files["grace_scale_factor"]                            = '/scratch/depfg/sutan101/data/grace_downloaded_2023_05_may/scale_factor_GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min.nc'
+input_files["grace_total_water_storage_original"]            = '/scratch/depfg/sutan101/data/grace_downloaded_2023_05_may/lwe_thickness_GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min_remapcon_5min.nc'
+input_files["grace_scale_factor"]                            = '/scratch/depfg/sutan101/data/grace_downloaded_2023_05_may/scale_factor_GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min_remapcon_5min.nc'
                                                              
 # ~ sutan101@node032.cluster:/scratch/depfg/sutan101/data/grace_downloaded_2023_05_may$ ls -lah *.nc
 # ~ -rw-r--r-- 1 sutan101 depfg  52M May 15 15:49 GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI.nc
