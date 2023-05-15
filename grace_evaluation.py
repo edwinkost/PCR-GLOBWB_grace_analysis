@@ -26,7 +26,7 @@ class GraceEvaluation(DynamicModel):
         self.modelTime = modelTime
 
         # main temporary directory 
-        self.main_tmp_dir = main_tmp_dir+"/"+vos.get_random_word()
+        self.main_tmp_dir = main_tmp_dir+"/"+vos.get_random_word(8)
         # make the temporary directory if not exist yet 
         try: 
             os.makedirs(self.main_tmp_dir)
