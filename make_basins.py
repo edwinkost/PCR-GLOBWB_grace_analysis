@@ -7,18 +7,25 @@ import sys
 import pcraster as pcr
 
 # make an output directory and go to there
-output_directory = "/scratch-shared/edwinhs/basin_for_grace_evaluation/"
+# ~ output_directory = "/scratch-shared/edwinhs/basin_for_grace_evaluation/"
+output_directory = "/scratch/depfg/sutan101/basin_for_grace_evaluation/"
 try:
     os.makedirs(output_directory) 
 except:
     os.system('rm -r ' + output_directory + "/*")
 os.chdir(output_directory) 
 
+# ~ sutan101@node032.cluster:/scratch/depfg/sutan101/data/pcrglobwb2_input_release/version_2019_11_beta_extended/pcrglobwb2_input/global_05min/routing/ldd_and_cell_area$ ls -lah *.map
+# ~ -rwxr-xr-- 1 sutan101 depfg  36M Dec 12  2020 cellsize05min.correct.map
+# ~ -rwxr-xr-- 1 sutan101 depfg 8.9M Dec 12  2020 lddsound_05min.map
+
 # set clone, as well as ldd, landmask and cell size maps that will be used
-ldd_map_file_name                          = "/projects/0/dfguu/data/hydroworld/PCRGLOBWB20/input5min/routing/lddsound_05min.map"
+# ~ ldd_map_file_name                          = "/projects/0/dfguu/data/hydroworld/PCRGLOBWB20/input5min/routing/lddsound_05min.map"
+ldd_map_file_name                          = "/scratch/depfg/sutan101/data/pcrglobwb2_input_release/version_2019_11_beta_extended/pcrglobwb2_input/global_05min/routing/ldd_and_cell_area/lddsound_05min.map"
 pcr.setclone(ldd_map_file_name)
 ldd_map  = pcr.readmap(ldd_map_file_name)
-cell_size_file_name                        = "/projects/0/dfguu/data/hydroworld/PCRGLOBWB20/input5min/routing/cellsize05min.correct.map"
+# ~ cell_size_file_name                        = "/projects/0/dfguu/data/hydroworld/PCRGLOBWB20/input5min/routing/cellsize05min.correct.map"
+cell_size_file_name                        = "/scratch/depfg/sutan101/data/pcrglobwb2_input_release/version_2019_11_beta_extended/pcrglobwb2_input/global_05min/routing/ldd_and_cell_area/cellsize05min.correct.map"
 cellsize = pcr.readmap(cell_size_file_name)
 
 # minimum catchment size (m2) - GRACE resolution products
