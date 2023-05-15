@@ -45,7 +45,7 @@ input_files["grace_scale_factor"]                            = '/scratch/depfg/s
 # output files:                                              
 output_files = {}                                            
 # ~ output_files['output_folder']                            = "/scratch-shared/edwinhs/grace_analysis_final/"
-output_files['output_folder']                                = "/scratch-shared/edwinhs/grace_analysis/aquifer/gmd_paper/"
+output_files['output_folder']                                = "/scratch/depfg/sutan101/grace_analysis/aquifer/gmd_paper/"
 cleanOutputFolder = True                                     
 #                                                            
 output_files['originalscale_original_value'] = {}            
