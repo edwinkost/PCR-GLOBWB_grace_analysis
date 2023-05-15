@@ -31,8 +31,16 @@ input_files["model_cell_area"]                               = '/scratch/depfg/s
 input_files["basin"]                                         = '/depfg/sutan101/data/processing_whymap/version_19september2014/major_aquifer_30min.map'
 #                                                            
 # - grace input files (must be resampled first to the PCR-GLOBWB resolution and its latitutde orientation must be consistent to the PCR-GLOBWB's) - unit: cm                                    
-input_files["grace_total_water_storage_original"]            = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02.edwin.05min.nc'
-input_files["grace_scale_factor"]                            = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/CLM4.SCALE_FACTOR.JPL.MSCNv01CRIv01.edwin.05min.nc'
+# ~ input_files["grace_total_water_storage_original"]        = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02.edwin.05min.nc'
+# ~ input_files["grace_scale_factor"]                        = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/CLM4.SCALE_FACTOR.JPL.MSCNv01CRIv01.edwin.05min.nc'
+input_files["grace_total_water_storage_original"]            = '/scratch/depfg/sutan101/data/grace_downloaded_2023_05_may/lwe_thickness_GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min.nc'
+input_files["grace_scale_factor"]                            = '/scratch/depfg/sutan101/data/grace_downloaded_2023_05_may/scale_factor_GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min.nc'
+                                                             
+# ~ sutan101@node032.cluster:/scratch/depfg/sutan101/data/grace_downloaded_2023_05_may$ ls -lah *.nc
+# ~ -rw-r--r-- 1 sutan101 depfg  52M May 15 15:49 GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI.nc
+# ~ -rw-r--r-- 1 sutan101 depfg 878M May 15 15:56 GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min.nc
+# ~ -rw-r--r-- 1 sutan101 depfg 436M May 15 16:00 lwe_thickness_GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min.nc
+# ~ -rw-r--r-- 1 sutan101 depfg 2.1M May 15 16:01 scale_factor_GRCTellus.JPL.200204_202302.GLO.RL06.1M.MSCNv03CRI_remapcon_30min.nc
                                                              
 # output files:                                              
 output_files = {}                                            
