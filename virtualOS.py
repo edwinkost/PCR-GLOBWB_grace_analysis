@@ -39,7 +39,7 @@ def netcdf2PCRobjCloneWithoutTime(ncFile,varName,
     # Get netCDF file and variable name:
     if ncFile in filecache.keys():
         f = filecache[ncFile]
-        print "Cached: ", ncFile
+        print("Cached: ", ncFile)
     else:
         f = nc.Dataset(ncFile)
         filecache[ncFile] = f
