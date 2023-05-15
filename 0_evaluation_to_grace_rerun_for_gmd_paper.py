@@ -19,15 +19,16 @@ import virtualOS as vos
 input_files = {}
 #
 # - total thickness of water storage, from PCR-GLOBWB - unit: m
-model_output_folder                                          = '/scratch-shared/edwinhs/runs_2017_july_aug_finalizing_4LCs/05min_runs/05min_runs_4LCs_accutraveltime_cru-forcing_1958-2015/non-natural_starting_from_1958/global/netcdf/'
-input_files["model_total_water_storage"]                     = model_output_folder + 'totalWaterStorageThickness_monthAvg_output_1958-01-31_to_2015-12-31.nc'               # unit: meter
+model_output_folder                                          = '/depfg/sutan101/data/pcrglobwb_gmd_paper_from_yoda/pcr-globwb_gmd_paper_sutanudjaja_et_al_2018/rerun_201903XX/output/05min/netcdf/monthly/'
+input_files["model_total_water_storage"]                     = model_output_folder + 'totalWaterStorageThickness_monthAvg_output_1958-01-31_to_2015-12-31.zip.nc'               # unit: meter
 input_files["model_total_water_storage_variable_name"]       = "total_thickness_of_water_storage"
 #
 # - cell area for the model (unit: m2, depending on PCR-GLOBWB resolution)
-input_files["model_cell_area"]                               = '/projects/0/dfguu/data/hydroworld/PCRGLOBWB20/input5min/routing/cellsize05min.correct.map' 
+input_files["model_cell_area"]                               = '/scratch/depfg/sutan101/data/pcrglobwb2_input_release/version_2019_11_beta_extended/pcrglobwb2_input/global_05min/routing/ldd_and_cell_area/cellsize05min.correct.map' 
 #
 # - catchment/basin/aquifer classification  
-input_files["basin"]                                         = '/scratch-shared/edwinhs/basin_for_grace_evaluation/catchment_group_final.map' 
+# ~ input_files["basin"]                                     = '/scratch-shared/edwinhs/basin_for_grace_evaluation/catchment_group_final.map' 
+input_files["basin"]                                         = '/depfg/sutan101/data/processing_whymap/version_19september2014/major_aquifer_30min.map'
 #                                                            
 # - grace input files (must be resampled first to the PCR-GLOBWB resolution and its latitutde orientation must be consistent to the PCR-GLOBWB's) - unit: cm                                    
 input_files["grace_total_water_storage_original"]            = '/scratch-shared/edwinhs/grace_data_downloaded_29aug2017/jpl_global_mascons/CRI/edwin-netcdf-05min/GRCTellus.JPL.200204_201701.GLO.RL05M_1.MSCNv02CRIv02.edwin.05min.nc'
@@ -35,7 +36,8 @@ input_files["grace_scale_factor"]                            = '/scratch-shared/
                                                              
 # output files:                                              
 output_files = {}                                            
-output_files['output_folder']                                = "/scratch-shared/edwinhs/grace_analysis_final/"
+# ~ output_files['output_folder']                            = "/scratch-shared/edwinhs/grace_analysis_final/"
+output_files['output_folder']                                = "/scratch-shared/edwinhs/grace_analysis/aquifer/gmd_paper/"
 cleanOutputFolder = True                                     
 #                                                            
 output_files['originalscale_original_value'] = {}            
