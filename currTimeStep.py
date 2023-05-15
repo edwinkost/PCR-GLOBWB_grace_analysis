@@ -142,5 +142,5 @@ class ModelTime(object):
         return self.isLastDayOfYear()
     
     def __str__(self):
-        print self._currTime
+        print(self._currTime)
         return str(self._currTime)
