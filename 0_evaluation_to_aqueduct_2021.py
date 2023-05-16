@@ -104,7 +104,7 @@ except:
 def main():
     
     startDate = "2003-01-01" #YYYY-MM-DD
-    endDate   = "2015-12-31" #YYYY-MM-DD
+    endDate   = "2019-12-31" #YYYY-MM-DD
     
     # time object
     modelTime = ModelTime() # timeStep info: year, month, day, doy, hour, etc
