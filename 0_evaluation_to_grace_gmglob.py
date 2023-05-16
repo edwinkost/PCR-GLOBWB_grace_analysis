@@ -19,7 +19,7 @@ import virtualOS as vos
 input_files = {}
 #
 # - total thickness of water storage, from PCR-GLOBWB - unit: m
-model_output_folder                                          = '/depfg/sutan101/data/globgm_groundwater_netcdf_files/v20230512/storage_estimation/tws_globgm$/'
+model_output_folder                                          = '/depfg/sutan101/data/globgm_groundwater_netcdf_files/v20230512/storage_estimation/tws_globgm/'
 input_files["model_total_water_storage"]                     = model_output_folder + 'tws_globgm_5min_monthly_1958-2015.nc'               # unit: meter
 input_files["model_total_water_storage_variable_name"]       = "total_thickness_of_water_storage"
 #
